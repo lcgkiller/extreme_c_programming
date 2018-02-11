@@ -4,7 +4,7 @@ int Recursive(int input){
     int result = 2;
 
     if (input==1)
-        return result;
+        return 1;
     
     return result * Recursive(input-1);
 }
