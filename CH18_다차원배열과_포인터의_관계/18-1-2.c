@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void SimpleFuncOne(int ** arr1, int ** ptr2){
+void SimpleFuncOne(int * arr1, int * ptr2){
 
 }
 
