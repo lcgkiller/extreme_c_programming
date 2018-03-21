@@ -22,7 +22,6 @@ int main(){
 
 void ShowArr(int (*arr)[4]){
     int i, j;
-    printf("Show Array\n");
 
     for(i=0; i<4; i++){
         for(j=0; j<4; j++){
@@ -30,12 +29,12 @@ void ShowArr(int (*arr)[4]){
         }
         printf("\n");
     }
+
     printf("\n");
 }
 
 void RoatateArr(int (*arr)[4]){
-
-    int i, j;
+    int i,j;
     int temp[4][4];
 
     for(i=0; i<4; i++){
@@ -43,11 +42,10 @@ void RoatateArr(int (*arr)[4]){
             temp[j][3-i] = arr[i][j];
         }
     }
-
+    
     for(i=0; i<4; i++){
         for(j=0; j<4; j++){
             arr[i][j] = temp[i][j];
         }
     }
-
 }
