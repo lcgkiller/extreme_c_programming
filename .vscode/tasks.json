@@ -15,28 +15,18 @@
         //컴파일
 
         {
-
             "label": "saveNcompile",
-
             "command": "gcc",
-
             "args": [
-
                 "${file}",
-
-                "-o",
-
+                "-g -o",
                 "${fileDirname}/${fileBasenameNoExtension}"
-
             ],
 
             "group": "build",
 
-
             //컴파일시 에러를 편집기에 반영
-
             //참고:   https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
-
 
             "problemMatcher": {
 
