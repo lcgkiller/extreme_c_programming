@@ -2,7 +2,7 @@
 
 void Hanoi(int n, char from, char aux, char to){
 
-    if (n == 1){
+    if ( n == 1 ){
         printf("%c %c\n", from, to);
     }
     else{
