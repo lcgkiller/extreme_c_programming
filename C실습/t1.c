@@ -1,6 +1,14 @@
 #include <stdio.h>
 
 int main(void){
+    float x = 1111111111111111.0;
+    double y = 1111111111111111.0;
+
+    printf("x : %f\n", x);
+    printf("y : %f\n", y);
+
+    return 0;
+    
     /* 4-10
     int a, b;
     int quo, mod;
