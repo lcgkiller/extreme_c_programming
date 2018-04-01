@@ -1,43 +1,49 @@
-#include<stdio.h> 
+#include <stdio.h>
+#include <stdlib.h>
 
-int main(void)
-{
-    int arr[100][100];
-    int idx, i, j; 
+int main(void){
+    int cnt = 1;
+    int sw = 1;
+    int i, j;
     int width, height;
-    int s=0, w=-1, inc=1, val=0; 
+    int row = -1, col=0;
 
-    scanf("%d %d", &height, &width); 
+    scanf("%d %d", &height, &width);
+    int max_row = width;
+    int max_col = height - 1;
 
-    while(1) 
-	{
-        for(i=0; i<width;i++) // 가로 단위 그림 
-		{
-            val++; 
-            w=w+inc; 
-            arr[s][w]=val;
+    int arr[height][width];
+
+    while(cnt<=width*height){
+        for(i=0; i<max_row; i++){
+            row += sw;
+            arr[col][row] = cnt ++;
         }
-        idx=idx-1; 
+        max_row--;
 
-        if(val==width*height) 
-			break; 
-
-        for(i=0; i<height; i++) // 세로 단위 그림
-		{ 
-            val++; 
-            s=s+inc; 
-            arr[s][w]=val; 
+        if (max_row < 0){
+            break;
         }
-        inc=inc*-1;
+        
+        for(j=0; j<max_col; j++){
+            col += sw;
+            arr[col][row] = cnt++;
+        }
+        max_col--;
+
+        if(max_col<0){
+            break;
+        }
+
+        sw *= -1;
     }
 
-    for(i=0; i<width; i++)  // 달팽이 배열 출력.  
-	{ 
-		for(j=0; j<height; j++) 
-            printf("%5d", arr[i][j]); 
+    for(i=0; i<height; i++){
+        for(j=0; j<width; j++){
+            printf(" %3d ", arr[i][j]);
+        }
         printf("\n");
-    } 
+    }
 
-	return 0;
+    return 0;
 }
-

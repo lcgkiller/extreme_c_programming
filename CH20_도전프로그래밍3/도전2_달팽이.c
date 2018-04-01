@@ -15,7 +15,6 @@ int main(void)
 		{
             val++; 
             w=w+inc; // w = -1 + 1 = 0
-            printf("가로 : %d\n", w);
             arr[s][w]=val;
         }
         len=len-1; 
@@ -23,11 +22,11 @@ int main(void)
         if(val==len*len) 
 			break; 
 
+
         for(i=0; i<len; i++) // 세로 단위 그림
 		{ 
             val++; 
             s=s+inc; 
-            printf("세로 : %d\n", s);
             arr[s][w]=val; 
         }
         inc=inc*(-1);
