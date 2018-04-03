@@ -1,33 +1,103 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include "ArrayList.h"
 
-typedef struct NODE {
-    struct NODE * next;
-    int data;
-};
+void ListInit(List * plist){
+    (plist -> numOfData) = 0;
+    (plist -> curPosition) = -1;
+}
 
-int main(){
-    struct NODE * head = malloc(sizeof(struct NODE));
-    struct NODE * node1 = malloc(sizeof(struct NODE));
-
-    head->next = node1;
-    node1->data = 10;
-
-    struct NODE *node2 = malloc(sizeof(struct NODE));
-    node1->next = node2;
-    node2->data = 20;
-
-    node2->next = NULL;
-
-    struct NODE * curr = head->next;
-    while (curr != NULL){
-        printf("%d\n", curr->data);
-        curr = curr->next;
+void LInsert(List * plist, LData data){
+    if(plist -> numOfData >= LIST_LEN){
+        puts("저장 불가");
+        return;
     }
 
-    free(node2);
-    free(node1);
-    free(head); 
+    plist->arr[plist->numOfData] = data;
+    (plist->numOfData)++;
+}
 
+int LFirst(List * plist, LData * pdata){
+    if(plist->numOfData ==0){
+        return FALSE;
+    }
+    (plist->curPosition) =0;
+    *pdata = plist->arr[0];
+    return TRUE;
+}
+
+int LNext(List * plist, LData * pdata){
+    if(plist->curPosition >= (plist->numOfData)-1)
+        return FALSE;
+
+    (plist->curPosition)++;
+    *pdata = plist->arr[plist->curPosition];
+    return TRUE;
+}
+
+LData LRemove(List * plist){
+    int rpos = plist->curPosition;
+    int num = plist->numOfData;
+    int i;
+    LData rdata = plist -> arr[rpos];
+
+    for(i=rpos; i<num-1; i++){
+        plist->arr[i] = plist->arr[i+1];
+    }
+
+    (plist->numOfData)--;
+    (plist->curPosition)--;
+
+    return rdata;
+}
+
+int LCount(List * plist){
+    return plist -> numOfData;
+}
+int main(void){
+
+    // ArrayList 생성 및 초기화
+    List list;
+    int data;
+    ListInit(&list);
+
+    // 5개의 데이터 저장
+    LInsert(&list, 11); LInsert(&list, 22);
+    LInsert(&list, 33); LInsert(&list, 44);
+    LInsert(&list, 55);
+
+    // 저장된 데이터 전체 출력
+    printf("현재 데이터의 수 : %d\n", LCount(&list));
+
+    if(LFirst(&list, &data)){
+        printf("%d ", data);
+
+        while(LNext(&list, &data))
+            printf("%d ", data);
+    }
+    printf("\n\n");
+
+    //숫자 22를 탐색하여 모두 삭제
+
+    if(LFirst(&list, &data)){
+        if(data == 22){
+            LRemove(&list);
+        }
+        while(LNext(&list, &data)){
+            if(data == 22)
+                LRemove(&list);
+        }
+    }
+
+    // 삭제 후 남은 데이터 전체 출력
+    printf("현재 남은 데이터의 수 : %d\n", LCount(&list));
+
+    if(LFirst(&list, &data)){
+        printf("%d ", data);
+        while(LNext(&list, &data)){
+            printf("%d ", data);
+        }
+    }
+
+    printf("\n\n");
     return 0;
 }
