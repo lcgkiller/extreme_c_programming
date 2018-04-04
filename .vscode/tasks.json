@@ -7,7 +7,6 @@
     "tasks": [
 
         //컴파일
-
         {
             "label": "saveNcompile",
             "command": "gcc",
