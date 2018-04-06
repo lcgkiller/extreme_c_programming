@@ -27,18 +27,31 @@ int main(void){
     
     /* 6장 반복문 실습14(33p) 중첩반복문 문제 */
 
+    // int num;
+    // int i,j ;
+    // scanf("%d", &num);
+
+    // for(i=0; i<num; i++){
+    //     for(j=0; j<=i; j++)
+    //         printf("*");
+    //     for(j=1; j<num-i; j++)
+    //         printf("~");
+
+    //     printf("\n");
+    // }
+    // return 0;
+
+    /* 6장 반복문 실습14(33p) 중첩반복문 문제 */
+
     int num;
-    int i,j ;
+    int i,j;
+    int start=1;
     scanf("%d", &num);
 
     for(i=0; i<num; i++){
-        for(j=0; j<=i; j++)
-            printf("*");
-        for(j=1; j<num-i; j++)
-            printf("~");
-
+        for(j=0; j<num-i; j++)
+            printf("  %d   ", start++);
         printf("\n");
     }
     return 0;
-    
 }
