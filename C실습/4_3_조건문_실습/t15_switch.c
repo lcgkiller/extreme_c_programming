@@ -10,9 +10,9 @@ int main(void){
     sum = a+b+c;
     avg = sum / 3.0f;
 
-    select = (avg>=75.0) ? 1 : avg>=50 ? 2 : 0;
-    switch(select){
-        case 1:
+    switch((int)avg/25){
+        case 4:
+        case 3:
             printf("%.2f\n%s", avg, "A");
             break;
         case 2:

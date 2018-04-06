@@ -2,29 +2,61 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*
-add(list position, item) : list의 position번째에 item을 추가한다.
-delete(list, position) : list의 position번째 위치한 item을 삭제한다
-get_entry(list, position) : list의 position번째 위치한 item 값을 리턴
-print(list) : list의 모든 item을 list에 저장된 순서대로 공백없이 출력한다
+// add는 num-1까지 돌아야함
+// add와 print만 구현
+
+/*Node *insertAfter(Node *Header, Node *Tail, Node *p, int num, char item)
+    Node *q;
+    q = getNode();
+
+void add_process(Node *Header, Node *Tail, int num_location, char data){
+    int i;
+    Node *p, *q;
+    p = Header;
+    for(i=1; i<num_location; i++){
+        p = p->next;
+        if(p==Tail){
+            printf("Invalid Position\n");
+            return;
+        }
+    }
+}
+Node * get_entry(Node *header, Node *Tail, int num){
+    Node *p=Header;
+    nt i;
+    for(i=0)
+}
+
+void print_all(NOde *Header, Node *Tail){
+    Node *p = Header->next;
+    p = Header;
+    while(p->next!=Tail){
+        p=p->next;
+        if(p==Tail){
+            printf("I")
+        }
+    }
+}
+
 */
 
 typedef struct __Node{
 	char elem; // 원소
-    Node * next; // 다음 노드를 가리키는 포인터
-	Node * prev; // 이전 노드를 가리키는 포인터
+    struct Node * next; // 다음 노드를 가리키는 포인터
+	struct Node * prev; // 이전 노드를 가리키는 포인터
 }Node;
 
-typedef struct __ArrayList{
-    Node * head; // 리스트의 시작 노드를 가리키는 포인터
-    Node * tail; // 리스트의 끝부분을 가리키는 포인터
+typedef struct __List{
+    Node * head;
+    Node * tail;
 }List;
 
 Node * getNode(){ // Node의 포인터를 반환
+/* malloc을 사용하는 경우 heap이 정리되어 있지 않을 가능성이 존재한다.
+   => memset을 사용하는 것이 좋음 
+*/
 	Node * new_node = (Node *)calloc(1, sizeof(Node)); // malloc을 하면서 clear를 실시
-    /* malloc을 사용하는 경우 heap이 정리되어 있지 않을 가능성 => memset을 사용하는 것이 좋음  
-	node = (Node *)malloc(sizeof(Node))
-    */
+
 	return new_node;
 }
 
@@ -35,38 +67,13 @@ List *initList(List *list){
 
     head -> next = tail;
     tail -> prev = head;
-    list->head=head;
-    list->tail=tail;
+    // (*head) -> next = *tail;
+    // (*tail) -> prev = *head;
+    // list->head=head;
+    // list->tail=tail;
 
     return list;
 }
-
-// void traverseList(Node * node, Node ** tail){
-        
-//     }
-// }
-
-// 노드 삽입    
-// void insertAfter(Node * newNode){
-   
-// }
-
-void add(Node * list, int position, char elem){
-    int i;
-    Node * p = list.head;
-
-    for(i=0; i<position; i++){
-        list = list->next;
-    }
-}
-
-// 노드 삭제
-void deleteNode(Node * node){
-    free(node);
-}
-
-
-
 int main(void){
 	List *list;
     list=initList(list);

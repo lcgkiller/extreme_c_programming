@@ -1,32 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-/*
-add(list position, item) : list의 position번째에 item을 추가한다.
-delete(list, position) : list의 position번째 위치한 item을 삭제한다
-get_entry(list, position) : list의 position번째 위치한 item 값을 리턴
-print(list) : list의 모든 item을 list에 저장된 순서대로 공백없이 출력한다
-*/
-
 typedef struct __Node{
 	char elem; // 원소
-    Node * next; // 다음 노드를 가리키는 포인터 (구조체 __Node의 포인터 변수 선언)
-	Node * prev; // 이전 노드를 가리키는 포인터 (구조체 __Node의 포인터 변수 선언)
+    struct __Node * next; // 다음 노드를 가리키는 포인터
+	struct __Node * prev; // 이전 노드를 가리키는 포인터
 }Node;
 
-typedef struct __ArrayList{
-    Node * head; // 리스트의 시작 노드를 가리키는 포인터
-    Node * tail; // 리스트의 끝부분을 가리키는 포인터
+typedef struct __List{
+    Node * head;
+    Node * tail;
 }List;
 
-Node * getNode(Node){ // Node의 포인터를 반환
-	Node * node = (Node *)calloc(1, sizeof(Node)); // malloc을 하면서 clear를 실시
+Node * getNode(){ // Node의 포인터를 반환
+	Node * new_node = (Node *)calloc(1, sizeof(Node)); // malloc을 하면서 clear를 실시
 
-    /* malloc을 사용하는 경우 heap이 정리되어 있지 않을 가능성 => memset을 사용하는 것이 좋음  
-	node = (Node *)malloc(sizeof(Node))
-    */
-	return node;
+	return new_node;
 }
 
 // 초기화
@@ -34,28 +23,38 @@ List *initList(List *list){
     Node *head = getNode();
     Node *tail = getNode();
 
-    head -> next = tail;
-    tail -> prev = head;
-    list->head=head;
-    list->tail=tail;
+    (*head).next = tail;
+    (*tail).prev = head;
+    // list->head=head; 이 방법도 가능
+    // list->tail=tail; 이 방법도 가능
 
     return list;
 }
 
-void add(Node * list, int position, char elem){
-    Node * p = list.head
+// Add
+void add(List *head, List *tail, int num_location, char data){
+    Node * new = getNode();
+    int i;
+    printf("############# hi\n");
+    Node *p, *q; // 매개변수 head와 tail 주소값을 저장
+    p = head;
+    for(i=0; i<num_location-1; i++){
+        p = p->next;
+        printf("@@@@@@@@@@@ %d\n", *p);
+        if(p==tail){
+            printf("Invalid Position\n");
+            return;
+        }
+    }
 }
-
-
 int main(void){
 	List *list;
     list=initList(list);
-    
-    add(list, 1, 'A');
 
-    for(i=0; i<1; i++){
-        list[i];
-    }
-    
+    int position;
+    char item;
+
+    scanf("%d %c", &position, &item);
+    add(&list->head, &list->tail, position, item);    
 	return 0;
 }
