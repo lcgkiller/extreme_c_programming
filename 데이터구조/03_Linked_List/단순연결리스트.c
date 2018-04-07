@@ -106,32 +106,43 @@ int main(void){
     ListNode *list1=NULL, *list2=NULL;
     ListNode *p;
 
-    // list1 = 30 -> 20 -> 10
-    insert_node(&list1, NULL, create_node(10, NULL));
-    insert_node(&list1, NULL, create_node(20, NULL));
-    insert_node(&list1, NULL, create_node(30, NULL));
+    int input;
+    int data;
+    int i;
+
+    scanf("%d", &input); // 정수의 개수
+    
+    for(i=0; i<input; i++){
+        scanf("%d", &data);
+        insert_node(&list1, NULL, create_node(data, NULL));
+    }
     display(list1);
+    // list1 = 30 -> 20 -> 10
+    // insert_node(&list1, NULL, create_node(10, NULL));
+    // insert_node(&list1, NULL, create_node(20, NULL));
+    // insert_node(&list1, NULL, create_node(30, NULL));
+    // display(list1);
 
     // list = 20->10
-    remove_node(&list1, NULL, list1);
-    display(list1);
+    // remove_node(&list1, NULL, list1);
+    // display(list1);
 
     // list2 = 80->70->60
-    insert_node(&list2, NULL, create_node(60, NULL));
-    insert_node(&list2, NULL, create_node(70, NULL));
-    insert_node(&list2, NULL, create_node(80, NULL));
-    display(list2);
+    // insert_node(&list2, NULL, create_node(60, NULL));
+    // insert_node(&list2, NULL, create_node(70, NULL));
+    // insert_node(&list2, NULL, create_node(80, NULL));
+    // display(list2);
 
-    list1 = concat(list1, list2);
-    display(list1);
+    // list1 = concat(list1, list2);
+    // display(list1);
 
     // list1을 역순으로
-    list1 = reverse(list1);
-    display(list1);
+    // list1 = reverse(list1);
+    // display(list1);
 
     // list1에서 20 탐색
-    p = search(list1, 20);
-    printf("탐색성공 : %d\n", p->data);
+    // p = search(list1, 20);
+    // printf("탐색성공 : %d\n", p->data);
 
     return 0;
 }

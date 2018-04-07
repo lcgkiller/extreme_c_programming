@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_LIST_SIZE 100
+#define MAX_LIST_SIZE 50
 
 typedef int element;
 typedef struct {
@@ -34,7 +34,7 @@ int is_full(ArrayListType * L){
 void display(ArrayListType *L){
     int i;
     for(i=0; i<L->length; i++){
-        printf("%d\n", L->list[i]);
+        printf("%d ", L->list[i]);
     }
 }
 
@@ -63,23 +63,61 @@ element delete(ArrayListType *L, int position){
     return item;
 }
 
+
+
+// int LFirst(ArrayList * list, int *pdata){
+//     if (list->length == 0){
+//         return 0; // FALSE 반환
+//     }
+//     list -> curPosition = 0;
+//     *pdata = list->list[list->curPosition];
+//     return 1; // TRUE 반환
+// }
+
+// int LNext(ArrayList * list, int *pdata){
+//     if (list->curPosition >= (list->length)-1){
+//         return 0; // curPosition이 배열길이를 넘으면 FALSE
+//     }
+//     list -> curPosition++;
+//     *pdata = list->list[list->curPosition];
+//     return 1;
+// }
+
 int main(){
     ArrayListType list1;
     ArrayListType *plist;
 
+
+    int num;
+    int i;
+    int data;
+
+    scanf("%d", &num);
     init(&list1);
-    add(&list1, 0, 10);
-    add(&list1, 0, 20);
-    add(&list1, 0, 30);
-    display(&list1);
 
-    plist = (ArrayListType *)malloc(sizeof(ArrayListType));
-    init(plist);
-    add(plist, 0, 10);
-    add(plist, 0, 20);
-    add(plist, 0, 30);
+     for(i=0; i<num; i++){
+        scanf("%d", &data);
+        add(&list1, 0, data);
 
-    display(plist);
-    free(plist);
+        if ((i+1)%3==0){
+            printf("i : %d \n", i);
+            display(&list1);
+        }
+        if (i+1==num)
+            display(&list1);
+    }
+    // add(&list1, 0, 10);
+    // add(&list1, 0, 20);
+    // add(&list1, 0, 30);
+    // display(&list1);
+
+    // plist = (ArrayListType *)malloc(sizeof(ArrayListType));
+    // init(plist);
+    // add(plist, 0, 10);
+    // add(plist, 0, 20);
+    // add(plist, 0, 30);
+
+    // display(plist);
+    // free(plist);
     return 0;
 }
