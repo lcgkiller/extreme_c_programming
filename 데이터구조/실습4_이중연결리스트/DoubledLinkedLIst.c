@@ -1,96 +1,124 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-// add는 num-1까지 돌아야함
-// add와 print만 구현
+typedef struct Node{
+    char elem;
+    struct Node * prev;
+    struct Node * next;
+}Node;
 
-/*Node *insertAfter(Node *Header, Node *Tail, Node *p, int num, char item)
-    Node *q;
-    q = getNode();
+typedef struct List{
+    struct Node * header;
+    struct Node * trailer;
+}List;
 
-void add_process(Node *Header, Node *Tail, int num_location, char data){
+Node * get_node(){
+    Node * new_node = (Node *)malloc(sizeof(Node));
+    return new_node;
+}
+void initList(List *list){
+    list->header = get_node();    // header 할당
+    list->trailer = get_node();   // trailer 할당
+    list->header->next = list->trailer; // 서로 연결
+    list->trailer->prev = list->header;
+}
+
+void add(List *list, int position, char elem){
     int i;
-    Node *p, *q;
-    p = Header;
-    for(i=1; i<num_location; i++){
-        p = p->next;
-        if(p==Tail){
-            printf("Invalid Position\n");
+    Node *current = list->header;
+    Node *new_node = get_node();
+    new_node -> elem = elem; // new_node에 데이터 저장
+    if (position <= 0){
+        printf("invalid position\n");
+        return;
+    }
+    
+    for(i=1; i<position; i++){
+        current = current -> next;
+        if (current == list->trailer){
+            printf("invalid position\n");
             return;
         }
     }
-}
-Node * get_entry(Node *header, Node *Tail, int num){
-    Node *p=Header;
-    nt i;
-    for(i=0)
+    
+    new_node -> next = current -> next;
+    current->next->prev = new_node;
+    new_node -> prev = current;
+    current -> next = new_node;
 }
 
-void print_all(NOde *Header, Node *Tail){
-    Node *p = Header->next;
-    p = Header;
-    while(p->next!=Tail){
-        p=p->next;
-        if(p==Tail){
-            printf("I")
+void delete(List *list, int position){
+    int i;
+    Node *current = list->header->next;
+    
+    if (position <= 0 || current == list->trailer){
+        printf("invalid position\n");
+        return;
+    }
+    
+    for(i=1; i<position; i++){
+        current = current->next;
+        if (current == list->trailer){
+            printf("invalid position\n");
+            return;
         }
+    }
+    
+    current -> next -> prev = current -> prev;
+    current -> prev -> next = current -> next;
+    free(current);
+}
+
+char get_entry(List *list, int position){
+    Node *current = list->header->next;
+    int i=0;
+    if (position <= 0 || current == list->trailer){
+        printf("invalid position\n");
+        return ' ';
+    }
+    for(i=1; i<position; i++){
+        current = current->next;
+        if (current == list->trailer){
+            printf("invalid position\n");
+            return ' ';
+        }
+    }
+    return current->elem;
+}
+
+void print(List *list){
+    Node *current = list->header->next;
+    while( current != list->trailer){
+        printf("%c", current->elem);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+void clear(List *list){
+    Node *p = list->header->next;
+    while( p!=list->trailer){
+        free(p);
+        p = p->next;   
     }
 }
 
-*/
-
-typedef struct __Node{
-	char elem; // 원소
-    struct Node * next; // 다음 노드를 가리키는 포인터
-	struct Node * prev; // 이전 노드를 가리키는 포인터
-}Node;
-
-typedef struct __List{
-    Node * head;
-    Node * tail;
-}List;
-
-Node * getNode(){ // Node의 포인터를 반환
-/* malloc을 사용하는 경우 heap이 정리되어 있지 않을 가능성이 존재한다.
-   => memset을 사용하는 것이 좋음 
-*/
-	Node * new_node = (Node *)calloc(1, sizeof(Node)); // malloc을 하면서 clear를 실시
-
-	return new_node;
-}
-
-// 초기화
-List *initList(List *list){
-    Node *head = getNode();
-    Node *tail = getNode();
-
-    head -> next = tail;
-    tail -> prev = head;
-    // (*head) -> next = *tail;
-    // (*tail) -> prev = *head;
-    // list->head=head;
-    // list->tail=tail;
-
-    return list;
-}
 int main(void){
-	List *list;
-    list=initList(list);
+    List list;
+    initList(&list);
     
-	char input;
-	int num_of_operation; // 연산의 개수
+    int num_of_operation; // 연산의 개수
     int cnt = 0; // 반복횟수
     
+    char input; // 연산 종류
     int position;
     char item;
-
-	scanf("%d", &num_of_operation);
-	getchar();
-
+    
+    scanf("%d", &num_of_operation);
+    getchar();
+    
     while(cnt!=num_of_operation){ // 연산 횟수만큼 출력
-        scanf("%c", &input);
-        getchar();
+        scanf(" %c", &input);
         switch(input){
             case 'A':
                 scanf("%d %c", &position, &item);
@@ -102,14 +130,17 @@ int main(void){
                 break;
             case 'G':
                 scanf("%d", &position);
-                get_entry(&list, position);
+                if (get_entry(&list, position) != ' '){
+                    printf("%c\n", get_entry(&list, position));
+                }
                 break;
             case 'P':
                 print(&list);
                 break;
         }
-        cnt++;   
+        cnt++;
     }
-    
-	return 0;
+    clear(&list);
+    return 0;
 }
+    

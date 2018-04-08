@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_SIZE    50
+#define MAX_SIZE    10
 
 typedef struct ArrayList{
     int list[MAX_SIZE];
