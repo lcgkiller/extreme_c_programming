@@ -47,7 +47,7 @@ void insert_node(List *list, int data){
             }
 
             for(i=0; i<list->size-1; i++){// 만약 헤드가 가리키는 값보다 크다면, 대소비교 실시
-                if (data>=cur->data && data<cur->next->data){
+                if (data >= cur->data && data < cur->next->data){
                     new_node->next = cur->next;
                     cur -> next = new_node;
                     list -> size++;
