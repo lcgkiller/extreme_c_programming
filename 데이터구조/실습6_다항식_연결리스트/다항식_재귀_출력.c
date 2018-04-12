@@ -90,18 +90,22 @@ void printList(List * list){
     }
 }
 
-void reversePrintList(List * list, Node *pointer){
-    Node * head = NULL;
-    Node * p = list->header;
-    if ( p->next == NULL){
-        head = p;
+void reversePrintList(List * list, Node *cur){
+    // printf("@@@@@@@@ cur : %d\n", cur);
+    // printf("@@@@@@@@ cur->next : %d\n", cur->next );
+
+    Node * head;
+
+    if ( cur->next == NULL){
+        printf(" %d %d", cur->coef, cur->exponent);
+        head = cur;
         return ;
     }
-    reversePrintList(list, p->next);
-    Node * q = p->next;
-    q->next = p;
-    printf(" %d %d", q->coef, q->exponent);
-    p->next = NULL;
+    else{
+        printf(" %d %d", cur->coef, cur->exponent);
+        cur = cur->next;
+        reversePrintList(list, cur);    
+    }
 }
 int main(void){
 
@@ -115,6 +119,7 @@ int main(void){
     List listA;
     List listB;
     List result_list;
+    Node *cur;
 
     initList(&listA); // List A 초기화
     initList(&listB); // List B 초기화
@@ -134,9 +139,9 @@ int main(void){
     }
 
     result_list = addPoly(&listA, &listB);
-   
+    cur = result_list.header;
     // printList(&result_list);
-    reversePrintList(&result_list, NULL);
+    reversePrintList(&result_list, cur);
     
     return 0;
 }

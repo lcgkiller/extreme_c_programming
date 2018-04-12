@@ -1,64 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node{
+typedef struct Node{ // 노드 구조체
     int data;
     struct Node * next;
 }Node;
 
-typedef struct List{
+typedef struct List{ // 노드를 관리하기 위한 list
     Node *head;
     int size;
 }List;
 
-void initList(List *list){
+void initList(List *list){  // 리스트 초기화
     list -> size = 0;
     list -> head = NULL;
 }
 
-// int is_full(List *list){
-//     printf("list size [%d]\n", list->size);
-//     return (list->size) >= MAX_SIZE ? 1 : 0;
-// }
-
-void insert_node(List *list, int data){
+void insert_node(List *list, int data){ // 원소 삽입 함수
     int i=0;
 
-    Node *cur = list->head;
+    Node *cur = list->head; // list의 head 부분을 cur 변수에 저장
     Node *new_node = (Node *)malloc(sizeof(Node)); // 새 노드 생성
     new_node -> data = data; // p->data, p->next 중에서 data는 이미 저장할 수 있다.
 
     if(list->head==NULL){ // 헤드가 비어있을 때
         list->head = new_node;
         list->size++;
-        
     }   
     else{ // 헤드가 비어있지 않을 때
         if(list->size == 1){ // 데이터 크기가 1인 경우 고려
-            if ( data < cur->data){ // 새로 삽입 되는 데이터가 더 작은 경우 맨 앞에 삽입
-                new_node -> next = cur; // 헤드는 다음 노드를 가리키고 있는 상태
+            if ( data < cur->data){ // 새로 삽입 되는 element가 더 작은 경우 맨 앞에 삽입
+                new_node -> next = cur; // (새로 삽입되는 노드) -> (new_node->next) -> (이전에 있던 노드)
                 list -> head = new_node; // 헤드를 교체해줌.
                 list -> size++;
                 return ;
             }
             else { // 새로 삽입되는 데이터가 더 큰 경우 뒤에 삽입
-                cur -> next = new_node;
+                cur -> next = new_node; // (이전에 있던 노드) -> (cur->next) -> (새로 삽입되는 노드)
                 list -> size++;
                 return ;
             }
-            cur -> next = new_node;
-            list -> size++;
+            // cur -> next = new_node;
+            // list -> size++;
         }
         else{ // 데이터 크기가 1이 아닌 경우 (즉, 2이상인 경우)
             if ( data < (cur->data) ){ // 만약 헤드보다 작다면 그냥 맨 앞에 삽입해주면 끝
-                new_node -> next = cur;
-                list -> head = new_node;
+                new_node -> next = cur;   //  (새 노드) -> (new_node->next) -> (노드1) - (노드2) - ... - (노드 n)
+                list -> head = new_node;  //  새 노드로 헤드 교체
                 list -> size++;
                 return ;
             }
 
             for(i=0; i<list->size-1; i++){// 만약 헤드가 가리키는 값보다 크다면, 대소비교 실시
-                if (data >= cur->data && data < cur->next->data){ // (prev_data) <= input_data < (next_data)
+                if (data >= cur->data && data < cur->next->data){ // (prev_data) <= (input_data) < (next_data)
                     new_node->next = cur->next;
                     cur -> next = new_node;
                     list -> size++;

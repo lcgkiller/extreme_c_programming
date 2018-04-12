@@ -6,8 +6,7 @@ int main(void){
     int cnt = 1;
     scanf("%d %d", &dan1, &dan2); // 단 범위 입력
 
-    for(i=dan1; i<=dan2; i+=2){         // dan1 ~ dan2 범위까지 2단씩 출력하기 위한 증감식 작성
-        printf("%d\n", i);
+    for(i=dan1; i<=dan2; i+=2){         // dan1 ~ dan2 범위까지 2단씩 출력하기 위한 증감식 작성 EX) 입력범위 3-4라면 1번 출력, 입력범위 3-5라면 2번 출력
         for(j=1; j<10; j++){            // *1, *2, *3, ... , *9
             for(k=i; k<=i+1; k++){      // 2단씩 출력하기 위한 조치
                 if (k > dan2){          // 만약 dan2의 범위를 넘어버리면 출력하지 않음
