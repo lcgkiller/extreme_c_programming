@@ -16,6 +16,7 @@ Node * get_node(){
     Node * new_node = (Node *)malloc(sizeof(Node));
     return new_node;
 }
+
 void initList(List *list){
     list->header = get_node();    // header 할당
     list->trailer = get_node();   // trailer 할당
