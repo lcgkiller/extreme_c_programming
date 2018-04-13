@@ -7,7 +7,7 @@ int Recursive(input){
     if (input < 10){
         return 0;
     }
-
+    
     return Recursive(input/10);
 }
 

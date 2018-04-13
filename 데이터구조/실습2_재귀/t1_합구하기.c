@@ -1,14 +1,11 @@
 #include <stdio.h>
 
-int Sum(input){
+int Sum(int input){
 
-    int total = 0;
-    total += input;
-    if (input==1){
-        return total;
+    if (input==0){
+        return 0;
     }
-
-    return total + Sum(--input);
+    return input + Sum(input-1);
 }
 
 int main(){
