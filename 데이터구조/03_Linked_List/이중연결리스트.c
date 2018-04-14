@@ -41,7 +41,7 @@ void dremove_node(DlistNode *phead_node, DlistNode *removed){
 }
 
 
-void main(){
+int main(){
     DlistNode head_node;
     DlistNode *p[10];
     int i;
