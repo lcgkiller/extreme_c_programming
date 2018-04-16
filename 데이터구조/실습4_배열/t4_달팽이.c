@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int main(void){
     int cnt = 1;
     int sw = 1;

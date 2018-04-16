@@ -90,21 +90,16 @@ void printList(List * list){
     }
 }
 
-void reversePrintList(List * list, Node *cur, int i){
-    // printf("cur->next : %d\n", cur->next);
-    int k = i;
-    printf("첫번쨰 선두 %d\n", k);
+void reversePrintList(List * list, Node *cur){
+    
     if ( cur->next == NULL){
-        // printf(" %d %d", cur->coef, cur->exponent);
+        printf(" %d %d", cur->coef, cur->exponent);
         return ;
     }
     else{
         Node* temp = cur->next;
-        // printf("temp : %d\n", temp);
-        k++;
-        reversePrintList(list, temp, k++);
+        reversePrintList(list, temp);
         printf(" %d %d", cur->coef, cur->exponent);
-        printf("안녕~ 나는 %d번째 출력되는거야\n", k++);
     }
 }
 int main(void){
@@ -112,7 +107,6 @@ int main(void){
     int x; // 첫 번째 다항식의 개수
     int y; // 두 번째 다항식의 개수
     int i;
-    int k =0;
 
     int coef;
     int exponent;
@@ -143,7 +137,7 @@ int main(void){
     cur = result_list.header;
     printList(&result_list);
     printf("\n");
-    reversePrintList(&result_list, cur, k);
+    reversePrintList(&result_list, cur);
     
     return 0;
 }
