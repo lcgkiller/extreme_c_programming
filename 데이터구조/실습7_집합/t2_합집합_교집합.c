@@ -1,108 +1,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
+typedef struct Set{
     int data;
-    struct Node * next;
-}Node;
+    struct Set * next;
+}Set;
 
-typedef struct Head {
-    Node * head;
-}Head;
-
-Node * get_node(){
-    Node * new_node = (Node *)malloc(sizeof(Node));
+Set * get_node(){
+    Set * new_node = (Set *)malloc(sizeof(Set));
+    new_node -> next = NULL; // 이 부분이 포인트
     return new_node;
 }
 
-void insertNode(Node *head, int pos, int data){
-    Node *new_node = get_node();
-    Node *p = head;
-    int i=0;
-    for(i=0; i<pos; i++){
-        p = p->next;
-    }
-    p->next = new_node;
+void AppendNode(Set *header, int data){
+    Set *new_node = get_node();
     new_node->data = data;
     new_node->next = NULL;
-
-}
-void print(Node *head){
-    Node *p = head->next;
-    while (p != NULL){
-        printf(" %d", p->data);
-        p = p->next;
+    if (header->next == NULL){
+        header->next = new_node;
     }
-    printf("\n");
-}
-int compare(Node *A, Node *C)
-{
-	Node *pA = A->next;
-	Node *pC = C->next;
-
-	int i = 0, j = 0;
-
-	for (;pA;pA = pA->next) i++;
-	for (;pC;pC = pC->next) j++;
-
-	if (i == j) return 1;
-	else return 0;
+    else{
+        Set * cur = header->next;
+        while ( cur->next != NULL ){
+            cur = cur->next;
+        }
+        cur->next = new_node;
+    }
 }
 
-void unionNode(Node *A, Node *B){
-    Node *pA = A->next;
-    Node *pB = B->next;
-    Node *new_list = get_node();
-    int i=0;
-    while ( pA && pB ){
-        if ( pA->data > pB->data ){
-            insertNode(new_list, i++, pB->data);
+Set * unionSet(Set *A, Set *B){
+    Set *pA = A->next;
+    Set *pB = B->next;
+    Set *result = get_node();
+
+    while (pA !=NULL && pB != NULL){
+        if (pA->data > pB->data){
+            AppendNode(result, pB->data);
             pB = pB->next;
         }
-        else if ( pA->data < pB->data ){
-            insertNode(new_list, i++, pA->data);
+        else if (pA->data < pB->data){
+            AppendNode(result, pA->data);
             pA = pA->next;
         }
-        else if ( pA->data == pB->data ){
-            insertNode(new_list, i++, pA->data);
+        else if (pA->data == pB->data){
+            AppendNode(result, pA->data);
             pA = pA->next;
             pB = pB->next;
         }
     }
-    
-    if (new_list == 0) printf("%d", 0);
-    else print(new_list);
-}
-
-void intersectNode(Node *A, Node *B){
-    Node *pA = A->next;
-    Node *pB = B->next;
-    Node *new_list = get_node();
-
-    int i=0;
-    while ( pA && pB ){
-        if ( pA->data > pB->data ){
-            pB = pB->next;
-        }
-        else if ( pA->data < pB->data ){
-            pA = pA->next;
-        }
-        else if ( pA->data == pB->data){
-            insertNode(new_list, i++, pA->data);
-            pA = pA->next;
-            pB = pB->next;
-        }
+    while ( pA != NULL ){
+        AppendNode(result, pA->data);
+        pA = pA->next;
     }
-    if (new_list == 0) printf("%d", 0);
-    else print(new_list);
+    while ( pB != NULL ){
+        AppendNode(result, pB->data);
+        pB = pB->next;
+    }
+
+    return result;
 }
 
-void subset(Node *A, Node *B){
-    Node *pA = A->next;
-    Node *pB = B->next;
-    Node *new_list = get_node();
+Set * intersectSet(Set *A, Set *B){
+    Set *pA = A->next;
+    Set *pB = B->next;
+    Set *result = get_node();
 
-    int i=0;
     while (pA && pB){
         if (pA->data > pB->data){
             pB = pB->next;
@@ -111,49 +73,68 @@ void subset(Node *A, Node *B){
             pA = pA->next;
         }
         else if (pA->data == pB->data){
-            insertNode(new_list, i++, pA->data); // pB에 있으면 새 집합 리스트에 원소 더하기
+            AppendNode(result, pA->data);
             pA = pA->next;
             pB = pB->next;
         }
     }
+    return result;
+}
 
-    if (compare(A, new_list) == 1) printf("%d", 0); // 집합 B에 속하지 않는 가장 작은 원소 출력
-	else printf("%d", pA->data);
+void PrintSet(Set *header){
+    Set *cur = header->next;
+    while (cur != NULL){
+        printf(" %d", cur->data);
+        cur = cur->next;
+    }
+    printf("\n");
 }
 
 int main(void){
-    int numA, numB;
-    int i;
-    int data;
+    int numA, numB, input;
+    int i=0;
 
-    Node *A = get_node();
-    Node *B = get_node();
+    Set * setA = get_node();
+    Set * setB = get_node();
+    Set * resultA = get_node();
+    Set * resultB = get_node();
 
-    // P2. Head 노드
-    Head *headA = A;
-    Head *headB = B;
-
-    printf("####### %d %d\n", headA, headB);
-
-    // 집합 A
     scanf("%d", &numA);
 
     for(i=0; i<numA; i++){
-        scanf("%d", &data);
-        insertNode(A, i, data);
+        scanf("%d", &input);
+        AppendNode(setA, input);
     }
 
-    // 집합 B
     scanf("%d", &numB);
-
-    for(i=0; i<numB; i++){
-        scanf("%d", &data);
-        insertNode(B, i, data);
-    }
     
-    // subset(A, B);
-    // unionNode(A, B); // 합집합
+    for(i=0; i<numB; i++){
+        scanf("%d", &input);
+        AppendNode(setB, input);
+    }
 
+    if (numA == 0 && numB == 0){
+        printf(" 0\n 0");
+    }
+    else if (numA == 0 && numB != 0){
+        PrintSet(setB);
+        printf(" 0");
+    }
+    else if (numA !=0 && numB == 0){
+        PrintSet(setA);
+        printf(" 0");
+    }
+    else{
+        resultA = unionSet(setA, setB);
+        resultB = intersectSet(setA, setB);
+        PrintSet(resultA);
+        if (resultB == 0){
+            printf(" 0");
+        }
+        else {
+            PrintSet(resultB);
+        }
+    }
 
     return 0;
 }
