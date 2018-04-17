@@ -91,7 +91,12 @@ void printList(List * list){
 }
 
 void reversePrintList(List * list, Node *cur){
-    
+    /* if ( cur->next != NULL){
+        p->pnext;
+        reversePrintList(cur);
+        printf(" %d %d", cur->coef, cur->exponent);
+    }
+    */
     if ( cur->next == NULL){
         printf(" %d %d", cur->coef, cur->exponent);
         return ;

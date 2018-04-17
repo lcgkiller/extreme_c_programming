@@ -7,7 +7,7 @@ int main(void){
     int cnt=0;
     scanf("%d", &num);
 
-    while(num>0){
+    while(num!=0){
         if (num % 10 == 3){
             cnt++;
         }

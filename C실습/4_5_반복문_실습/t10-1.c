@@ -8,11 +8,9 @@ int main(void){
     scanf("%d", &num);
 
 
-    while(1){
+    while(num!=0){
         result += (num % 10);
         num /= 10;
-        if (num == 0) break;
-
     }
     printf("%d\n", result);
     return 0;

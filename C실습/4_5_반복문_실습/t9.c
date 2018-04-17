@@ -10,10 +10,9 @@ int main(void){
 
     for(i=1; i<=num; i++){
         int temp = i;
-        while(1){
+        while(temp!=0){
             if(temp%10==3) cnt++;
             temp = temp/10;
-            if (temp==0) break;
         }
     }
 
