@@ -75,7 +75,7 @@ void subset(Set *A, Set *B){
             pB = pB->next;
         }
         else if(pA->data < pB->data){
-            printf("%d", pA->data);
+            printf("%d", pA->data); // 놓치기 쉬운 부분
             return; 
             // pA = pA->next;
         }
