@@ -89,9 +89,6 @@ void subset(Set *A, Set *B){
     else printf("%d\n", pA->data);
 }
 
-
-
-
 int main(void){
     int numA, numB, input;
     int i=0;
