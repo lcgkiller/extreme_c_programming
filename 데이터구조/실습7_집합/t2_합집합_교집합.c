@@ -81,6 +81,37 @@ Set * intersectSet(Set *A, Set *B){
     return result;
 }
 
+Set * subtractSet(Set *A, Set *B){
+    Set *pA = A->next;
+    Set *pB = B->next;
+    Set *result = get_node();
+
+    while (pA && pB){
+        if (pA->data > pB->data){
+            printf("들어가용 1: %d\n", pA->data);
+            AppendNode(result, pA->data);
+            pA = pA->next;
+            pB = pB->next;
+        }
+        else if (pA->data < pB->data){
+            printf("들어가용 2: %d\n", pA->data);
+            AppendNode(result, pA->data);
+            pA = pA->next;
+        }
+        else if (pA->data == pB->data){
+            pA = pA->next;
+            pB = pB->next;
+        }
+    }
+
+    while(pA != NULL){
+        printf("들어가용 3: %d\n", pA->data);
+        AppendNode(result, pA->data);
+        pA = pA->next;
+    }
+    return result;
+}
+
 void PrintSet(Set *header){
     Set *cur = header->next;
     while (cur != NULL){
@@ -98,6 +129,7 @@ int main(void){
     Set * setB = get_node();
     Set * resultA = get_node();
     Set * resultB = get_node();
+    Set * resultSubset = NULL;
 
     scanf("%d", &numA);
 
@@ -135,6 +167,9 @@ int main(void){
             PrintSet(resultB);
         }
     }
+    printf("====차집합===\n");
+    resultSubset =  subtractSet(setA, setB);
+    PrintSet(resultSubset);
 
     return 0;
 }

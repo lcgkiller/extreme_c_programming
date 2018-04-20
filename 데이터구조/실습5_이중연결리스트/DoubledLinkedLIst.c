@@ -29,6 +29,7 @@ void add(List *list, int position, char elem){
     Node *current = list->header;
     Node *new_node = get_node();
     new_node -> elem = elem; // new_node에 데이터 저장
+    
     if (position <= 0){
         printf("invalid position\n");
         return;
@@ -142,6 +143,7 @@ int main(void){
         cnt++;
     }
     clear(&list);
+    print(&list);
     return 0;
 }
     
