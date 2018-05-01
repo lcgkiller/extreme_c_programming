@@ -88,13 +88,11 @@ Set * subtractSet(Set *A, Set *B){
 
     while (pA && pB){
         if (pA->data > pB->data){
-            printf("들어가용 1: %d\n", pA->data);
             AppendNode(result, pA->data);
-            pA = pA->next;
+            pA = pA->next; // 이걸 추가해줘야 한다.
             pB = pB->next;
         }
         else if (pA->data < pB->data){
-            printf("들어가용 2: %d\n", pA->data);
             AppendNode(result, pA->data);
             pA = pA->next;
         }
@@ -105,7 +103,6 @@ Set * subtractSet(Set *A, Set *B){
     }
 
     while(pA != NULL){
-        printf("들어가용 3: %d\n", pA->data);
         AppendNode(result, pA->data);
         pA = pA->next;
     }

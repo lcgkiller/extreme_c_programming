@@ -92,7 +92,7 @@ void subset(Set *A, Set *B){
 int main(void){
     int numA, numB, input;
     int i=0;
-    Set * setA = NULL;
+    Set * setA = NULL; // 더블포인터 사용 예제
     Set * setB = NULL;
 
     scanf("%d", &numA);
