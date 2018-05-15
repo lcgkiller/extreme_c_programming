@@ -71,7 +71,7 @@ int main(void){
             innerIndex = index; 
         }
         num = outerIndex;
-        flag = 0; // 
+        flag = 0; // flag를 0으로 만들어 줌으로써 첫번째 배열 이후 min_arr 배열과 max_arr배열을 결정하는 로직만 수행하도록 0으로 변경한다.
         innerIndex = index = 0;
         outerIndex = outerIndex % 3 == 0 ? outerIndex / 3.0 : outerIndex == 1 ? 0 : outerIndex/3.0 + 1; // outerIndex가 3으로 나누어 떨어지면(TRUE) : /3 값
                                                                                                         // 나누어 떨어지지 않을때(FALSE) outerIndex가 1이라면 0으로 만들고 그 이외는 +1
