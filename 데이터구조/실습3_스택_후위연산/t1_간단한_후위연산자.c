@@ -31,13 +31,10 @@ int isOperator(char op){
     switch(op){
         case '(': case ')':
             return 0;
-            break;
         case '+': case '-':
             return 1;
-            break;
         case '*': case '/':
             return 2;
-            break;
         default:
             return -1;
     }
@@ -55,14 +52,12 @@ void postfix(char *str){
             push(&s, str[i]);
         }
         else if(str[i]==')'){
-            // printf("\n\n진입1 : %c\n\n", str[i]);
             while(peek(&s) != '('){
                 printf("%c", pop(&s));
             }
             pop(&s);
         }
         else if (isOperator(str[i]) >=1 ){
-            // printf("\n\n진입2 : %c\n\n", str[i]);
             while(!is_empty(&s) && isOperator(str[i]) <= isOperator(peek(&s))){
                 printf("%c", pop(&s));
             }

@@ -39,7 +39,7 @@ int main(void){
     char str[1000];
     int i=0;
     int count=0;
-    int wrong=0;
+    
     Stack * stack;
     stack = (Stack *)malloc(sizeof(Stack));
     initStack(stack);
@@ -59,22 +59,23 @@ int main(void){
     for(i=0; i<strlen(str); i++){
         int open_flag = (str[i]=='(' || str[i]=='[' || str[i]=='{');
         int closed_flag = (str[i]==')' || str[i]==']' || str[i]=='}');
+
         if (open_flag){
             push(stack, str[i]);
-            wrong++;
         }
 
         else if(closed_flag){
             char peek_chr = peek(stack);
             int flag = (str[i] == ')' && peek_chr == '(') || (str[i] == ']' && peek_chr == '[') || (str[i] == '}' && peek_chr == '{');
+            int pair = 0;
+
             if (flag) { // stack의 top과 일치하는 경우
                 pop(stack);
-                wrong++;
+                pair++;
                 continue;
             }
             else{
-                wrong++;
-                printf("Wrong_%d\n", wrong);
+                printf("Wrong_%d\n", count-pair);
                 return ;
             }
         }
@@ -86,7 +87,7 @@ int main(void){
         printf("OK_%d", count);
     }
     else{
-        printf("Wrong_%d", wrong);
+        printf("Wrong_%d", count);
     }
     
     return 0;
