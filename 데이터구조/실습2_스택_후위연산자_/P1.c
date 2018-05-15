@@ -5,7 +5,6 @@
 typedef struct Stack{
     int top;
     char s[MAX_SIZE];
-    int size;
 }Stack;
 
 void initStack(Stack *s){
@@ -18,20 +17,24 @@ void push(Stack *s, char data){
     }
     s->top++;
     s->s[s->top] = data;
-    // printf("\npush : %c\n", data);
 }
 
-void pop(Stack *s){
+char pop(Stack *s){
     char temp = s->s[s->top];
-    if(s->top == -1) return ;
-    else{
-        s->top--;
-        printf("%c", temp);
-    }
+    if(temp == '@') temp = '+';
+    else if(temp == '#') temp = '-';
+    s->top--;
+    return temp;
 }
 
 char peek(Stack *s){
     return s->s[s->top];
+}
+
+int is_empty(Stack *s){
+    if(s->top != -1) 
+        return 0;
+    return 1;
 }
 
 void print(Stack *s){
@@ -44,118 +47,102 @@ void print(Stack *s){
 
 int priorityOperator(char operator){
     switch(operator){
-        case '(': case ')':
-            return 0;
-        case '|':
-            return 1;
-        case '&':
-            return 2;
-        case '<': case '>':
-            return 3;
-        case '+': case '-':
-            return 4;
-        case '/': case '*':  
-            return 5;
-        case '!': 
-            return 6;
-        default:
-            return -1;
+        case '(': case ')':           return 0;
+        case '|':                     return 1; 
+        case '&':                     return 2;
+        case '<': case '>':           return 3;
+        case '+': case '-':           return 4;
+        case '/': case '*':           return 5;
+        case '!': case '@': case '#': return 6;     // '@' = '+'  , '#' = '-'
+        default:                      return -1;
     }
 }
+
+void unaryChecker(char *str){
+    int i=0;
+
+    for(i=0; i<strlen(str); i++){
+        /*
+        case1) flag1 : 첫번째 문자가 '+'혹은 '-'인 경우
+        case2) flag2 : 피연산자 + 연산자 + 연산자인 경우
+        case3) flag3 : 열린 괄호 '(' 다음에 '+' 혹은 '-'인 경우
+        */
+        int flag1 = str[0] == '+' || str[0] == '-';
+        int flag2 = priorityOperator(str[i]) == -1 && priorityOperator(str[i+1]) >= 1 && (str[i+2] == '+' || str[i+2] == '-');
+        int flag3 = str[i] == '(' && (str[i+1] == '+' || str[i+1] == '-');
+        if (flag1 || flag2 || flag3){
+            if (flag1){
+                if (str[i] == '+') str[i] = '@';
+                else if (str[i] == '-') str[i] = '#';
+            }
+
+            else if (flag2){
+                if (str[i+2] == '+') str[i+2] = '@';
+                else if(str[i+2] == '-') str[i+2] = '#';                
+            }
+            else if (flag3){
+                if (str[i+1] == '+') str[i+1] = '@';
+                else if(str[i+1] == '-') str[i+1] = '#';
+            }
+        }
+    }
+}
+
 void postfix(char *str){
     Stack s; // 연산자 스택
-    int i = 0;
     initStack(&s);
-    for(i=0; i<strlen(str)-1; i++){
+    unaryChecker(str);
+
+    int i = 0;
+    for(i=0; i<strlen(str); i++){
         int priority = priorityOperator(str[i]);
 
         if (priority == -1){ // A,B,C,D,E,F 출력
             printf("%c", str[i]);
         }
-
-        else if (priority>=0) {
-            if (str[i] == '('){
-                push(&s, str[i]);
-                continue;
-            }
-            else if (str[i] == ')'){
-                char temp = peek(&s);
-                while(temp != '('){
-                    printf("\ntemp : %c\n", temp);
-                    pop(&s);
-                    temp = peek(&s);
-                }
-                printf("\ntest=====stack=====\n");
-                print(&s);
-                printf("=====stack=====\n");
-                s.top--; // 마지막에 남은 s.top == '('를 제거하기 위함
-                printf("\nafter test=====stack=====\n");
-                print(&s);
-                printf("=====stack=====\n");
-                continue;
-            }
-            
-            else if(s.top != -1 && priorityOperator(peek(&s)) >= priority){
-                // printf("\n=====pop before stack↓=====\n");
-                // print(&s);
-                // printf("=====pop before stack↑=====\n");  
-                if (peek(&s) != '('){
-                    while(s.top > -1){
-                        pop(&s);
-                    }
-                } 
-
-                // pop(&s);
-                // printf("\n=====push1 before stack↓=====\n");
-                // print(&s);
-                // printf("=====push1 before stack↑=====\n");   
-                push(&s, str[i]); 
-                // printf("\n=====push1 after stack↓=====\n");
-                // print(&s);
-                // printf("=====push1 after stack↑=====\n");   
-                continue;
-            }
-
-            // if(priority == 4){
-            //     printf("\n\n니 면상 보자 : %c\n\n", str[i]);
-            // }
-            // printf("\n=====push2 before stack↓=====\n");
-            // print(&s);
-            // printf("=====push2 before stack↑=====\n");   
+        else if (str[i] == '('){
             push(&s, str[i]); 
-            // printf("\n=====push2 after stack↓=====\n");
-            // print(&s);
-            // printf("=====push2 after stack↑=====\n");   
+        }
+        else if (str[i] == ')'){
+            while(peek(&s) != '('){
+                printf("%c", pop(&s));
+            }
+            pop(&s); // 마지막에 남은 s.top == '('를 제거하기 위함
+        }
+        else if(priority>=1){
+            while (!is_empty(&s) && priority <= priorityOperator(peek(&s)))
+            {
+                if(peek(&s) == '|'){
+                    printf("%c", pop(&s));
+                }
+                else if(peek(&s) == '&'){
+                    printf("%c", pop(&s));
+                }
+                else{
+                    printf("%c", pop(&s));
+                }
+            }
+            if(str[i] == '|' || str[i] == '&'){
+                push(&s, str[i]);
+                i++;
+            }
+            push(&s, str[i]);
         }
     }
-
-    while(s.top>-1){
-        // printf("\n=====## stack↓=====\n");
-        // print(&s);
-        // printf("=====stack↑=====\n");   
-        pop(&s);
-        if(s.top==-1){
-            printf("\n");
-        }
+    while(!is_empty(&s)){
+        printf("%c", pop(&s));
     }
 }
 
 int main(void){
     char str[100];
-    Stack s; // 스택
-    int num, i;
-
+    int i=0;
+    int num;
     scanf("%d", &num);
-    // getchar();
-
-    fgets(str, 100, stdin);
-    postfix(str);
-
-
-    // for(i=0; i<num; i++){
-    //     fgets(str, 100, stdin);
-    //     postfix(str);
-    // }
     
-    return 0;
+    for(i=0; i<num; i++){
+        scanf("%s", str);
+        postfix(str);
+        printf("\n");
+    }
 }
